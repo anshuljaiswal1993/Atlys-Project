@@ -1,6 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { testUsers } from "../../data/users";
 import styles from "./SignIn.module.css";
+
 
 interface SignInProps {
   setIsAuthenticated: (auth: boolean) => void;
@@ -9,44 +11,29 @@ interface SignInProps {
 function SignIn({ setIsAuthenticated }: SignInProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // fake login
+    const user = testUsers.find((u) => u.email === email && u.password === password);
+    if (!user) {
+      setError("Invalid credentials");
+      return;
+    }
     setIsAuthenticated(true);
     navigate("/");
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h2>Sign In</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            className={styles.input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit" className={styles.button}>
-            Sign In
-          </button>
-        </form>
-        <Link to="/signup" className={styles.link}>
-          Don’t have an account? Sign Up
-        </Link>
-      </div>
+    <div>
+      <h2>Sign In</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit">Sign In</button>
+      </form>
     </div>
   );
 }

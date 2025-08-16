@@ -1,50 +1,83 @@
 import { useState } from "react";
-import { useAuth } from "../../auth/AuthContext";
-import styles from "./AuthModal.module.css";
+import { testUsers } from "../../data/users";
 
-type Props = { onClose: () => void };
+interface AuthModalProps {
+  onClose: () => void;
+  setIsAuthenticated: (auth: boolean) => void;
+}
 
-export default function AuthModal({ onClose }: Props) {
-  const { login } = useAuth();
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
+function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // pretend success
-    login();
-    onClose();
+
+    if (mode === "signin") {
+      const user = testUsers.find((u) => u.email === email && u.password === password);
+      if (!user) {
+        setError("Invalid credentials");
+        return;
+      }
+      setIsAuthenticated(true);
+      onClose();
+    } else {
+      const exists = testUsers.find((u) => u.email === email);
+      if (exists) {
+        setError("User already exists");
+        return;
+      }
+      testUsers.push({ email, password });
+      setIsAuthenticated(true);
+      onClose();
+    }
   };
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal="true">
-      <div className={styles.modal}>
-        <button className={styles.close} onClick={onClose} aria-label="Close">×</button>
-        <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
-        <form onSubmit={submit} className={styles.form}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)" }}>
+      <div style={{ background: "#fff", padding: "1rem", maxWidth: "400px", margin: "10% auto" }}>
+        <h2>{mode === "signin" ? "Sign In" : "Sign Up"}</h2>
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
             placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
             type="password"
             placeholder="Password"
-            value={form.password}
-            onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">{isSignUp ? "Create Account" : "Sign In"}</button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button type="submit">{mode === "signin" ? "Sign In" : "Sign Up"}</button>
         </form>
-        <p className={styles.switch}>
-          {isSignUp ? "Already have an account?" : "Don’t have an account?"}{" "}
-          <span onClick={() => setIsSignUp((v) => !v)}>
-            {isSignUp ? "Sign In" : "Sign Up"}
-          </span>
+        <p>
+          {mode === "signin" ? (
+            <>
+              Don’t have an account?{" "}
+              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setMode("signup")}>
+                Sign Up
+              </span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setMode("signin")}>
+                Sign In
+              </span>
+            </>
+          )}
         </p>
+        <button onClick={onClose}>Close</button>
       </div>
     </div>
   );
 }
+
+export default AuthModal;

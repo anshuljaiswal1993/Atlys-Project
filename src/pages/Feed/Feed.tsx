@@ -3,8 +3,8 @@ import { useAuth } from "../../auth/AuthContext";
 import AuthModal from "../../components/AuthModal/AuthModal";
 import styles from "./Feed.module.css";
 
-export default function Feed() {
-  const { isAuthenticated } = useAuth();
+export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps) {
+  // const { isAuthenticated } = useAuth();
   const [posts, setPosts] = useState<string[]>([]);
   const [newPost, setNewPost] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -60,7 +60,7 @@ export default function Feed() {
         ))}
       </div>
 
-      {showModal && <AuthModal onClose={() => setShowModal(false)} />}
+      {showModal && <AuthModal onClose={() => setShowModal(false)} setIsAuthenticated={setIsAuthenticated} />}
     </div>
   );
 }
