@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { testUsers } from "../../data/users";
+import styles from "../SignIn/SignIn.module.css"; // ✅ reuse the same CSS
 
 interface SignUpProps {
   setIsAuthenticated: (auth: boolean) => void;
@@ -25,14 +26,33 @@ function SignUp({ setIsAuthenticated }: SignUpProps) {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+          <button className={styles.button} type="submit">
+            Sign Up
+          </button>
+        </form>
+        <a href="/signin" className={styles.link}>
+          Already have an account? Sign In
+        </a>
+      </div>
     </div>
   );
 }

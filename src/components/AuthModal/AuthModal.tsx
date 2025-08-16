@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { testUsers } from "../../data/users";
+import styles from "./AuthModal.module.css";
 
 interface AuthModalProps {
   onClose: () => void;
@@ -36,11 +37,15 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)" }}>
-      <div style={{ background: "#fff", padding: "1rem", maxWidth: "400px", margin: "10% auto" }}>
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
+         <button className={styles.close} onClick={onClose}>
+          ✖
+        </button>
         <h2>{mode === "signin" ? "Sign In" : "Sign Up"}</h2>
         <form onSubmit={handleSubmit}>
           <input
+            className={styles.input}
             type="email"
             placeholder="Email"
             value={email}
@@ -48,33 +53,32 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
             required
           />
           <input
+            className={styles.input}
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <button type="submit">{mode === "signin" ? "Sign In" : "Sign Up"}</button>
+          {error && <p className={styles.error}>{error}</p>}
+          <button className={styles.button} type="submit">
+            {mode === "signin" ? "Sign In" : "Sign Up"}
+          </button>
         </form>
-        <p>
+        <p className={styles.switch}>
           {mode === "signin" ? (
             <>
               Don’t have an account?{" "}
-              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setMode("signup")}>
-                Sign Up
-              </span>
+              <span onClick={() => setMode("signup")}>Sign Up</span>
             </>
           ) : (
             <>
               Already have an account?{" "}
-              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setMode("signin")}>
-                Sign In
-              </span>
+              <span onClick={() => setMode("signin")}>Sign In</span>
             </>
           )}
         </p>
-        <button onClick={onClose}>Close</button>
+       
       </div>
     </div>
   );

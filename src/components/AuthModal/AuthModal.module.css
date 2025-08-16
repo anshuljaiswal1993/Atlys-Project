@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal {
@@ -17,18 +18,21 @@
   width: 400px;
   max-width: 90%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
 }
 
 .modal h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .modal input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.7rem;
   margin: 0.5rem 0;
   border: 1px solid #ccc;
   border-radius: 6px;
+  font-size: 1rem;
 }
 
 .modal button {
@@ -37,21 +41,48 @@
   color: white;
   border: none;
   padding: 0.7rem;
+  margin-top: 1rem;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1rem;
 }
 
 .modal button:hover {
   background: #0056b3;
 }
 
+.error {
+  color: red;
+  margin: 0.5rem 0;
+}
+
+.switch {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.switch span {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.switch span:hover {
+  text-decoration: underline;
+}
+
 .closeBtn {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   background: #ccc;
+  color: #333;
   border: none;
-  padding: 0.5rem;
+  padding: 0.6rem;
   width: 100%;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: #999;
 }
