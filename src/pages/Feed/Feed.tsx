@@ -103,9 +103,12 @@ export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps)
       {/* Modal */}
       {showModal && (
         <AuthModal
-          onClose={() => setShowModal(false)}
-          setIsAuthenticated={setIsAuthenticated}
-        />
+    onClose={() => setShowModal(false)}
+    setIsAuthenticated={setIsAuthenticated}
+    setSnackbar={(msg) => {
+      setSnackbar(msg);
+    }}
+  />
       )}
 
         {snackbar && (

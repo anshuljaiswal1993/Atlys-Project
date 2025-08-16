@@ -5,9 +5,10 @@ import styles from "./AuthModal.module.css";
 interface AuthModalProps {
   onClose: () => void;
   setIsAuthenticated: (auth: boolean) => void;
+  setSnackbar: (msg: string) => void;
 }
 
-function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
+function AuthModal({ onClose, setIsAuthenticated, setSnackbar }: AuthModalProps) {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +24,7 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
         return;
       }
       setIsAuthenticated(true);
+      setSnackbar("🎉 Logged in successfully!");
       onClose();
     } else {
       const exists = testUsers.find((u) => u.email === email);
@@ -32,6 +34,7 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
       }
       testUsers.push({ email, password });
       setIsAuthenticated(true);
+      setSnackbar("✅ Account created & logged in!");
       onClose();
     }
   };
@@ -39,9 +42,7 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-         <button className={styles.closeBtn} onClick={onClose}>
-          ✖
-        </button>
+        <button className={styles.closeBtn} onClick={onClose}>✖</button>
         <h2>{mode === "signin" ? "Sign In" : "Sign Up"}</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -67,18 +68,11 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
         </form>
         <p className={styles.switch}>
           {mode === "signin" ? (
-            <>
-              Don’t have an account?{" "}
-              <span onClick={() => setMode("signup")}>Sign Up</span>
-            </>
+            <>Don’t have an account? <span onClick={() => setMode("signup")}>Sign Up</span></>
           ) : (
-            <>
-              Already have an account?{" "}
-              <span onClick={() => setMode("signin")}>Sign In</span>
-            </>
+            <>Already have an account? <span onClick={() => setMode("signin")}>Sign In</span></>
           )}
         </p>
-       
       </div>
     </div>
   );
