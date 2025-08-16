@@ -2,6 +2,12 @@ import { useState } from "react";
 import AuthModal from "../../components/AuthModal/AuthModal";
 import styles from "./Feed.module.css";
 
+type FeedProps = {
+  isAuthenticated: boolean;
+  setIsAuthenticated: (auth: boolean) => void;
+};
+
+
 export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps) {
   // const { isAuthenticated } = useAuth();
   const [posts, setPosts] = useState<string[]>([]);
@@ -9,6 +15,8 @@ export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps)
   const [showModal, setShowModal] = useState(false);
 
   // Guard helper: if unauthenticated, open modal and abort action
+
+  
   const requireAuth = (action: () => void) => {
     if (!isAuthenticated) {
       setShowModal(true);
