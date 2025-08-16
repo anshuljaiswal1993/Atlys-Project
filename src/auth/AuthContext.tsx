@@ -1,4 +1,4 @@
-import { createContext, useContext, useState,type ReactNode } from "react";
+import { createContext, useState, type ReactNode } from "react";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -20,9 +20,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
-}
+export { AuthContext };
