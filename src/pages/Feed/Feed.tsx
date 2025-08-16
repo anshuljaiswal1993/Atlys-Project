@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuth } from "../../auth/AuthContext";
 import AuthModal from "../../components/AuthModal/AuthModal";
 import styles from "./Feed.module.css";
 
