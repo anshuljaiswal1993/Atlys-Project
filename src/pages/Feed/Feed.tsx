@@ -56,6 +56,12 @@ export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps)
           onFocus={() => {
             if (!isAuthenticated) setShowModal(true);
           }}
+           onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      publish();
+    }
+  }}
         />
 
         <div className={styles["editor-footer"]}>
