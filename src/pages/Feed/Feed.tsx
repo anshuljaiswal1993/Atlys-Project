@@ -30,7 +30,7 @@ export default function Feed({ isAuthenticated, setIsAuthenticated }: FeedProps)
       setSnackbar("✅ Post added successfully!");
     });
 
-  const notImplemented = () => alert("Function not implemented");
+  const notImplemented = () => setSnackbar("⚠️ Function not implemented");
 
   return (
     <div className={styles.container}>
