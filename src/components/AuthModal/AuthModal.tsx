@@ -39,7 +39,7 @@ function AuthModal({ onClose, setIsAuthenticated }: AuthModalProps) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-         <button className={styles.close} onClick={onClose}>
+         <button className={styles.closeBtn} onClick={onClose}>
           ✖
         </button>
         <h2>{mode === "signin" ? "Sign In" : "Sign Up"}</h2>

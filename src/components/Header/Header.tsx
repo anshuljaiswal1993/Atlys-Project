@@ -19,11 +19,11 @@ function Header({ isAuthenticated, setIsAuthenticated }: HeaderProps) {
       <h1 className={styles.logo}>Mini Feed</h1>
       <nav className={styles.nav}>
         {isAuthenticated ? (
-          <button onClick={handleSignOut}>Sign Out</button>
+          <button className={styles.signoutBtn} onClick={handleSignOut}>Sign Out</button>
         ) : (
           <>
-            <Link to="/signin">Sign In</Link>
-            <Link to="/signup">Sign Up</Link>
+            <Link className={styles.link} to="/signin">Sign In</Link>
+            <Link className={styles.link} to="/signup">Sign Up</Link>
           </>
         )}
       </nav>
